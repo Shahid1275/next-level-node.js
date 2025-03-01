@@ -4,6 +4,7 @@ const morgan = require('morgan');
 
 const app = express();
 app.use(express.json());
+app.use(express.static(`${__dirname}/public`));
 app.use(morgan('dev'));
 
 // ✅ Define Routers BEFORE using them
@@ -55,13 +56,11 @@ const findTourById = (id) => toursData.find((tour) => tour.id === id);
 const isInvalidId = (id) => id < 1 || id > toursData.length;
 
 const getTours = (req, res) => {
-  res
-    .status(200)
-    .json({
-      status: 'success',
-      results: toursData.length,
-      data: { tours: toursData },
-    });
+  res.status(200).json({
+    status: 'success',
+    results: toursData.length,
+    data: { tours: toursData },
+  });
 };
 
 const getTour = (req, res) => {
@@ -96,13 +95,11 @@ const deleteTour = (req, res) => {
   if (isInvalidId(Number(req.params.id)))
     return res.status(404).json({ status: 'fail', message: 'Invalid ID' });
 
-  res
-    .status(204)
-    .json({
-      status: 'success',
-      message: 'Tour deleted successfully',
-      data: null,
-    });
+  res.status(204).json({
+    status: 'success',
+    message: 'Tour deleted successfully',
+    data: null,
+  });
 };
 
 // ✅ Apply routes for tours
@@ -161,13 +158,11 @@ const deleteUser = (req, res) => {
 
   users = users.filter((user) => user.id !== id);
 
-  res
-    .status(204)
-    .json({
-      status: 'success',
-      message: 'User deleted successfully',
-      data: null,
-    });
+  res.status(204).json({
+    status: 'success',
+    message: 'User deleted successfully',
+    data: null,
+  });
 };
 
 // ✅ Apply routes for users
