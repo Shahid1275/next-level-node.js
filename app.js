@@ -1,8 +1,14 @@
 const fs = require('fs');
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
 const express = require('express');
 const morgan = require('morgan');
 
 const app = express();
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 app.use(morgan('dev'));
@@ -169,6 +175,9 @@ const deleteUser = (req, res) => {
 userRouter.route('/').get(getUsers).post(createUser);
 userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
+//environment variables
+
+console.log(process.env);
 // ✅ Start Server
 const port = 3000;
 app.listen(port, () => console.log(`App running on port ${port}...`));
